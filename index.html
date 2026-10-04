@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Video App</title>
 
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:white;
+}
+header{
+  padding:22px 18px;
+  text-align:center;
+  background:linear-gradient(135deg,#111827,#172554);
+}
+header h1{font-size:28px}
+header p{margin-top:7px;color:#a5b4fc}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:#111c2e;
+  border:1px solid #263852;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:18px;
+}
+
+.upload{
+  border:2px dashed #3b82f6;
+  text-align:center;
+  padding:35px 15px;
+  border-radius:18px;
+}
+
+.upload h2{margin-bottom:10px}
+.upload p{color:#94a3b8;margin-bottom:20px}
+
+input{display:none}
+
+.btn{
+  display:inline-block;
+  background:#2563eb;
+  padding:14px 24px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.stats{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+
+.stat{
+  flex:1;
+  background:#172337;
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:20px;
+  margin-bottom:5px;
+}
+
+#files{margin-top:18px}
+
+.file{
+  background:#172337;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.file-name{
+  font-weight:bold;
+  word-break:break-word;
+}
+
+.file-size{
+  color:#94a3b8;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.preview{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  margin-top:12px;
+  border-radius:12px;
+  background:#000;
+}
+
+.empty{
+  text-align:center;
+  color:#64748b;
+  padding:25px;
+}
+
+footer{
+  text-align:center;
+  color:#64748b;
+  padding:25px;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎬 My Video App</h1>
+  <p>फोटो और वीडियो मैनेजर</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="upload">
+      <h2>📁 अपनी फाइल चुनें</h2>
+      <p>फोटो या वीडियो अपने फोन से चुनें</p>
+
+      <label class="btn">
+        + Upload Files
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*,video/*"
+          multiple
+        >
+      </label>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <b id="photoCount">0</b>
+        Photos
+      </div>
+
+      <div class="stat">
+        <b id="videoCount">0</b>
+        Videos
+      </div>
+
+      <div class="stat">
+        <b id="totalSize">0 MB</b>
+        Total
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h2>📂 मेरी फाइलें</h2>
+
+    <div id="files">
+      <div class="empty">
+        अभी कोई फोटो या वीडियो नहीं चुना गया।
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  My Video App • Personal Media Manager
+</footer>
+
+<script>
+
+const input = document.getElementById("fileInput");
+const filesBox = document.getElementById("files");
+
+const photoCount = document.getElementById("photoCount");
+const videoCount = document.getElementById("videoCount");
+const totalSize = document.getElementById("totalSize");
+
+input.addEventListener("change", function(){
+
+  filesBox.innerHTML = "";
+
+  let photos = 0;
+  let videos = 0;
+  let total = 0;
+
+  Array.from(input.files).forEach(file => {
+
+    total += file.size;
+
+    if(file.type.startsWith("image/")){
+      photos++;
+    }
+
+    if(file.type.startsWith("video/")){
+      videos++;
+    }
+
+    const box = document.createElement("div");
+    box.className = "file";
+
+    const name = document.createElement("div");
+    name.className = "file-name";
+    name.textContent = "📄 " + file.name;
+
+    const size = document.createElement("div");
+    size.className = "file-size";
+    size.textContent =
+      (file.size / 1024 / 1024).toFixed(2) + " MB";
+
+    box.appendChild(name);
+    box.appendChild(size);
+
+    if(file.type.startsWith("image/")){
+
+      const img = document.createElement("img");
+      img.className = "preview";
+      img.src = URL.createObjectURL(file);
+
+      box.appendChild(img);
+    }
+
+    if(file.type.startsWith("video/")){
+
+      const video = document.createElement("video");
+      video.className = "preview";
+      video.src = URL.createObjectURL(file);
+      video.controls = true;
+
+      box.appendChild(video);
+    }
+
+    filesBox.appendChild(box);
+  });
+
+  photoCount.textContent = photos;
+  videoCount.textContent = videos;
+  totalSize
