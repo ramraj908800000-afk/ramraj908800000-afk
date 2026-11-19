@@ -2,107 +2,87 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>My AI Video Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY AI VIDEO STUDIO</title>
 
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#080d19;
- color:white;
+margin:0;
+font-family:Arial,sans-serif;
+background:#080d19;
+color:white;
 }
 header{
- padding:25px 15px;
- text-align:center;
- background:linear-gradient(135deg,#312e81,#7c3aed,#2563eb);
+padding:22px 15px;
+text-align:center;
+background:linear-gradient(135deg,#312e81,#7c3aed,#2563eb);
 }
-header h1{margin:0;font-size:27px}
-header p{color:#ddd;margin-bottom:0}
+header h1{margin:0;font-size:26px}
+header p{color:#e0e7ff}
 .container{
- max-width:850px;
- margin:auto;
- padding:15px;
+max-width:650px;
+margin:auto;
+padding:18px;
 }
 .card{
- background:#131d30;
- border:1px solid #293750;
- border-radius:17px;
- padding:18px;
- margin-bottom:17px;
+background:#151e30;
+border:1px solid #334155;
+border-radius:15px;
+padding:18px;
+margin-bottom:18px;
 }
-h2{font-size:20px;margin-top:0}
-h3{font-size:16px}
-.tabs{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:8px;
- margin-bottom:18px;
-}
-.tab{
- background:#1e293b;
- padding:13px 5px;
- text-align:center;
- border-radius:10px;
- cursor:pointer;
- font-size:13px;
-}
-.tab.active{background:#6d28d9}
-.section{display:none}
-.section.active{display:block}
+h2{font-size:20px}
 label{
- display:block;
- margin:13px 0 7px;
- color:#cbd5e1;
+display:block;
+margin:15px 0 8px;
+color:#cbd5e1;
 }
-input,select,textarea{
- width:100%;
- padding:13px;
- border-radius:9px;
- border:1px solid #475569;
- background:#0b1424;
- color:white;
+select,input,textarea{
+width:100%;
+padding:14px;
+border-radius:9px;
+border:1px solid #475569;
+background:#0b1220;
+color:white;
+font-size:15px;
 }
-textarea{min-height:90px;resize:vertical}
-button,.btn{
- border:0;
- padding:13px 17px;
- border-radius:10px;
- background:#6d28d9;
- color:white;
- font-weight:bold;
- cursor:pointer;
- margin-top:12px;
+textarea{height:110px;resize:vertical}
+button{
+width:100%;
+padding:15px;
+border:0;
+border-radius:10px;
+background:linear-gradient(90deg,#7c3aed,#2563eb);
+color:white;
+font-size:17px;
+font-weight:bold;
+margin-top:15px;
 }
-button:disabled{opacity:.5}
-.green{background:#059669}
-.blue{background:#2563eb}
-.orange{background:#ea580c}
-.full{width:100%}
-.preview{
- width:100%;
- max-height:420px;
- background:#000;
- border-radius:12px;
- margin-top:15px;
+button:active{opacity:.8}
+#result{
+padding:15px;
+margin-top:15px;
+border-radius:10px;
+background:#0b1220;
+color:#a5b4fc;
+word-break:break-word;
 }
-.row{
- display:flex;
- gap:10px;
- flex-wrap:wrap;
+.features{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
-.row>*{flex:1;min-width:110px}
-.note{
- color:#94a3b8;
- font-size:13px;
- line-height:1.6;
+.feature{
+background:#202d45;
+padding:17px 8px;
+text-align:center;
+border-radius:10px;
 }
-canvas{max-width:100%;border-radius:10px}
 footer{
- text-align:center;
- color:#64748b;
- padding:25px;
+text-align:center;
+padding:25px;
+color:#94a3b8;
 }
 </style>
 </head>
@@ -111,175 +91,85 @@ footer{
 
 <header>
 <h1>🎬 MY AI VIDEO STUDIO</h1>
-<p>Create • Edit • Design • Export</p>
+<p>अपना वीडियो AI से बनाने का स्टूडियो</p>
 </header>
 
 <div class="container">
 
 <div class="card">
-<h2>🚀 Welcome Creator!</h2>
-<p>एक ही जगह पर वीडियो बनाएं, एडिट करें और डिजाइन तैयार करें।</p>
-</div>
+<h2>✨ AI Video Generator</h2>
 
-<div class="tabs">
-<div class="tab active" onclick="showTab('ai',this)">🤖 AI Maker</div>
-<div class="tab" onclick="showTab('editor',this)">✂️ Editor</div>
-<div class="tab" onclick="showTab('design',this)">🎨 Design</div>
-</div>
+<label>वीडियो बनाने का तरीका चुनें</label>
 
-<!-- AI VIDEO MAKER -->
+<select id="mode">
+<option>Text to Video</option>
+<option>Image to Video</option>
+<option>3D Animation</option>
+</select>
 
-<div class="section active" id="ai">
+<label>अपना वीडियो Prompt लिखें</label>
 
-<div class="card">
-<h2>🤖 AI VIDEO MAKER</h2>
-
-<label>वीडियो का विषय लिखें</label>
 <textarea id="prompt"
-placeholder="उदाहरण: भारत के भविष्य पर एक सिनेमैटिक वीडियो बनाओ..."></textarea>
+placeholder="बताइए कैसा वीडियो बनाना चाहते हैं..."></textarea>
 
-<label>Video Format</label>
-<select id="aiFormat">
-<option value="9:16">9:16 - YouTube Shorts</option>
-<option value="16:9">16:9 - YouTube</option>
-<option value="1:1">1:1 - Instagram Post</option>
+<label>अपनी Image अपलोड करें</label>
+<input type="file" id="image" accept="image/*">
+
+<label>वीडियो की अवधि</label>
+<select id="duration">
+<option>5 Seconds</option>
+<option>10 Seconds</option>
+<option>15 Seconds</option>
+<option>30 Seconds</option>
 </select>
 
-<label>Video Style</label>
-<select id="style">
-<option>Cinematic Realistic</option>
-<option>Documentary</option>
-<option>News Report</option>
-<option>Comedy</option>
-<option>Animation</option>
-</select>
-
-<button class="full" onclick="makePrompt()">
-✨ Generate AI Video Prompt
-</button>
-
-<textarea id="result"
-placeholder="आपका वीडियो प्रॉम्प्ट यहां आएगा..."
-readonly></textarea>
-
-<button class="blue full" onclick="copyPrompt()">
-📋 Copy Prompt
-</button>
-
-<p class="note">
-नोट: यह अभी AI प्रॉम्प्ट बनाने वाला फीचर है।
-असली AI वीडियो जनरेशन के लिए बाद में AI API जोड़नी होगी।
-</p>
-</div>
-
-</div>
-
-<!-- VIDEO EDITOR -->
-
-<div class="section" id="editor">
-
-<div class="card">
-
-<h2>✂️ PROFESSIONAL VIDEO EDITOR</h2>
-
-<label>अपनी फोटो या वीडियो चुनें</label>
-<input type="file" id="media"
-accept="image/*,video/*">
-
-<video id="video" class="preview"
-controls playsinline style="display:none"></video>
-
-<img id="photo" class="preview"
-style="display:none">
-
-<label>Background Music (Optional)</label>
-<input type="file" id="music" accept="audio/*">
-
-<label>वीडियो में टेक्स्ट लिखें</label>
-<input type="text" id="overlay"
-placeholder="अपना टेक्स्ट लिखें">
-
-<label>Text Position</label>
-<select id="position">
-<option value="top">Top</option>
-<option value="middle">Middle</option>
-<option value="bottom">Bottom</option>
-</select>
-
-<label>Video Filter</label>
-<select id="filter">
-<option value="none">Normal</option>
-<option value="grayscale(1)">Black & White</option>
-<option value="sepia(1)">Vintage</option>
-<option value="brightness(1.3)">Bright</option>
-<option value="contrast(1.4)">High Contrast</option>
-</select>
-
-<label>Video Ratio</label>
+<label>वीडियो का आकार</label>
 <select id="ratio">
-<option value="9:16">9:16 Vertical</option>
-<option value="16:9">16:9 Landscape</option>
-<option value="1:1">1:1 Square</option>
+<option>9:16 Shorts</option>
+<option>16:9 YouTube</option>
+<option>1:1 Square</option>
 </select>
 
-<label>वीडियो की शुरुआत (Seconds)</label>
-<input type="number" id="start" value="0" min="0">
-
-<label>वीडियो का अंत (Seconds)</label>
-<input type="number" id="end" value="8" min="1">
-
-<button class="full green" onclick="exportVideo()">
-🎬 EXPORT VIDEO
+<button onclick="generate()">
+🚀 Generate Video
 </button>
 
-<p id="status" class="note">
-अपनी मीडिया फाइल चुनकर एडिटिंग शुरू करें।
-</p>
-
+<div id="result">
+आपका वीडियो यहाँ दिखाई देगा।
 </div>
 
 </div>
-
-<!-- DESIGN STUDIO -->
-
-<div class="section" id="design">
 
 <div class="card">
+<h2>🎙️ Hindi Voice Generator</h2>
 
-<h2>🎨 THUMBNAIL MAKER</h2>
+<textarea id="voice"
+placeholder="अपनी हिंदी स्क्रिप्ट लिखें..."></textarea>
 
-<label>Thumbnail Background Photo</label>
-<input type="file" id="thumbImage" accept="image/*">
-
-<label>Thumbnail Heading</label>
-<input type="text" id="thumbText"
-placeholder="यहां अपना टाइटल लिखें">
-
-<label>Text Color</label>
-<select id="thumbColor">
-<option value="white">White</option>
-<option value="yellow">Yellow</option>
-<option value="red">Red</option>
-</select>
-
-<label>Thumbnail Format</label>
-<select id="thumbRatio">
-<option value="16:9">YouTube 16:9</option>
-<option value="9:16">Shorts 9:16</option>
-</select>
-
-<button class="full" onclick="makeThumbnail()">
-🎨 CREATE THUMBNAIL
-</button>
-
-<canvas id="thumbCanvas" class="preview"></canvas>
-
-<button class="full green" onclick="downloadThumbnail()">
-⬇️ DOWNLOAD THUMBNAIL
-</button>
-
+<button onclick="speak()">🔊 सुनें</button>
 </div>
 
+<div class="card">
+<h2>✍️ AI Script Generator</h2>
+
+<input id="topic" placeholder="वीडियो का टॉपिक लिखें">
+
+<button onclick="script()">Generate Script</button>
+
+<div id="scriptResult"></div>
+</div>
+
+<div class="card">
+<h2>🔥 Studio Features</h2>
+
+<div class="features">
+<div class="feature">🎬 Text to Video</div>
+<div class="feature">🖼️ Image to Video</div>
+<div class="feature">🎥 3D Animation</div>
+<div class="feature">🎙️ Hindi Voice</div>
+<div class="feature">✍️ AI Script</div>
+<div class="feature">📥 Video Export</div>
+</div>
 </div>
 
 </div>
@@ -289,362 +179,261 @@ MY AI VIDEO STUDIO © 2026
 </footer>
 
 <script>
+function generate(){
+let p=document.getElementById("prompt").value;
+let m=document.getElementById("mode").value;
 
-function showTab(id,element){
- document.querySelectorAll('.section').forEach(x=>{
-  x.classList.remove('active');
- });
- document.querySelectorAll('.tab').forEach(x=>{
-  x.classList.remove('active');
- });
- document.getElementById(id).classList.add('active');
- element.classList.add('active');
+if(!p.trim()){
+alert("पहले वीडियो का Prompt लिखें");
+return;
 }
 
-// AI PROMPT MAKER
-
-function makePrompt(){
-
- let p=document.getElementById('prompt').value;
- let style=document.getElementById('style').value;
- let ratio=document.getElementById('aiFormat').value;
-
- if(!p.trim()){
-  alert('पहले वीडियो का विषय लिखें');
-  return;
- }
-
- document.getElementById('result').value=
- `Create a professional ${style} video.
-
- Topic: ${p}
-
- Video Ratio: ${ratio}
-
- High quality visuals, cinematic camera movement,
- professional lighting, smooth transitions,
- engaging storytelling and professional editing.`;
-
+document.getElementById("result").innerText=
+"आपका "+m+" Prompt तैयार है:\n\n"+p+
+"\n\nअभी AI वीडियो इंजन/API कनेक्ट नहीं है। इसे कनेक्ट करने के बाद वीडियो जनरेट होगा।";
 }
 
-function copyPrompt(){
- let t=document.getElementById('result');
- if(!t.value){
-  alert('पहले Prompt Generate करें');
-  return;
- }
- t.select();
- document.execCommand('copy');
- alert('Prompt Copied!');
+function speak(){
+let t=document.getElementById("voice").value;
+if(!t.trim()){
+alert("पहले स्क्रिप्ट लिखें");
+return;
+}
+let u=new SpeechSynthesisUtterance(t);
+u.lang="hi-IN";
+speechSynthesis.speak(u);
 }
 
-// VIDEO EDITOR
+function script(){
+let t=document.getElementById("topic").value;
+if(!t.trim()){
+alert("पहले टॉपिक लिखें");
+return;
+}
+document.getElementById("scriptResult").innerText=
+"आपका टॉपिक: "+t+
+"\n\nAI Script Generator को वास्तविक AI से जोड़ना बाकी है।";
+}
+</script>
 
-let currentFile=null;
-let musicFile=null;
-let imageObject=null;
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY AI VIDEO STUDIO</title>
 
-const video=document.getElementById('video');
-const photo=document.getElementById('photo');
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#080d19;
+color:white;
+}
+header{
+padding:22px 15px;
+text-align:center;
+background:linear-gradient(135deg,#312e81,#7c3aed,#2563eb);
+}
+header h1{margin:0;font-size:26px}
+header p{color:#e0e7ff}
+.container{
+max-width:650px;
+margin:auto;
+padding:18px;
+}
+.card{
+background:#151e30;
+border:1px solid #334155;
+border-radius:15px;
+padding:18px;
+margin-bottom:18px;
+}
+h2{font-size:20px}
+label{
+display:block;
+margin:15px 0 8px;
+color:#cbd5e1;
+}
+select,input,textarea{
+width:100%;
+padding:14px;
+border-radius:9px;
+border:1px solid #475569;
+background:#0b1220;
+color:white;
+font-size:15px;
+}
+textarea{height:110px;resize:vertical}
+button{
+width:100%;
+padding:15px;
+border:0;
+border-radius:10px;
+background:linear-gradient(90deg,#7c3aed,#2563eb);
+color:white;
+font-size:17px;
+font-weight:bold;
+margin-top:15px;
+}
+button:active{opacity:.8}
+#result{
+padding:15px;
+margin-top:15px;
+border-radius:10px;
+background:#0b1220;
+color:#a5b4fc;
+word-break:break-word;
+}
+.features{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+.feature{
+background:#202d45;
+padding:17px 8px;
+text-align:center;
+border-radius:10px;
+}
+footer{
+text-align:center;
+padding:25px;
+color:#94a3b8;
+}
+</style>
+</head>
 
-document.getElementById('media').addEventListener('change',e=>{
+<body>
 
- currentFile=e.target.files[0];
+<header>
+<h1>🎬 MY AI VIDEO STUDIO</h1>
+<p>अपना वीडियो AI से बनाने का स्टूडियो</p>
+</header>
 
- if(!currentFile)return;
+<div class="container">
 
- let url=URL.createObjectURL(currentFile);
+<div class="card">
+<h2>✨ AI Video Generator</h2>
 
- if(currentFile.type.startsWith('video/')){
+<label>वीडियो बनाने का तरीका चुनें</label>
 
-  photo.style.display='none';
-  video.style.display='block';
-  video.src=url;
+<select id="mode">
+<option>Text to Video</option>
+<option>Image to Video</option>
+<option>3D Animation</option>
+</select>
 
-  video.onloadedmetadata=()=>{
-   document.getElementById('end').value=
-   Math.floor(video.duration);
-  };
+<label>अपना वीडियो Prompt लिखें</label>
 
- }else if(currentFile.type.startsWith('image/')){
+<textarea id="prompt"
+placeholder="बताइए कैसा वीडियो बनाना चाहते हैं..."></textarea>
 
-  video.style.display='none';
-  photo.style.display='block';
-  photo.src=url;
- }
+<label>अपनी Image अपलोड करें</label>
+<input type="file" id="image" accept="image/*">
 
-});
+<label>वीडियो की अवधि</label>
+<select id="duration">
+<option>5 Seconds</option>
+<option>10 Seconds</option>
+<option>15 Seconds</option>
+<option>30 Seconds</option>
+</select>
 
-document.getElementById('music').addEventListener('change',e=>{
- musicFile=e.target.files[0] || null;
-});
+<label>वीडियो का आकार</label>
+<select id="ratio">
+<option>9:16 Shorts</option>
+<option>16:9 YouTube</option>
+<option>1:1 Square</option>
+</select>
 
-async function exportVideo(){
+<button onclick="generate()">
+🚀 Generate Video
+</button>
 
- if(!currentFile){
-  alert('पहले फोटो या वीडियो चुनें');
-  return;
- }
+<div id="result">
+आपका वीडियो यहाँ दिखाई देगा।
+</div>
 
- if(!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream){
-  alert('आपके ब्राउजर में वीडियो Export सपोर्ट उपलब्ध नहीं है।');
-  return;
- }
+</div>
 
- const isVideo=currentFile.type.startsWith('video/');
- const canvas=document.createElement('canvas');
- const ctx=canvas.getContext('2d');
+<div class="card">
+<h2>🎙️ Hindi Voice Generator</h2>
 
- let width=720,height=1280;
- const ratio=document.getElementById('ratio').value;
+<textarea id="voice"
+placeholder="अपनी हिंदी स्क्रिप्ट लिखें..."></textarea>
 
- if(ratio==='16:9'){
-  width=1280;height=720;
- }
- if(ratio==='1:1'){
-  width=900;height=900;
- }
+<button onclick="speak()">🔊 सुनें</button>
+</div>
 
- canvas.width=width;
- canvas.height=height;
+<div class="card">
+<h2>✍️ AI Script Generator</h2>
 
- const start=Math.max(0,Number(document.getElementById('start').value)||0);
- const endValue=Number(document.getElementById('end').value)||8;
+<input id="topic" placeholder="वीडियो का टॉपिक लिखें">
 
- let duration=isVideo?
- Math.min(endValue,video.duration)-start:8;
+<button onclick="script()">Generate Script</button>
 
- if(duration<=0){
-  alert('वीडियो का End Time सही रखें');
-  return;
- }
+<div id="scriptResult"></div>
+</div>
 
- if(isVideo && endValue>video.duration){
-  alert('End Time वीडियो की अवधि से अधिक है');
-  return;
- }
+<div class="card">
+<h2>🔥 Studio Features</h2>
 
- const status=document.getElementById('status');
- status.textContent='वीडियो तैयार हो रहा है...';
+<div class="features">
+<div class="feature">🎬 Text to Video</div>
+<div class="feature">🖼️ Image to Video</div>
+<div class="feature">🎥 3D Animation</div>
+<div class="feature">🎙️ Hindi Voice</div>
+<div class="feature">✍️ AI Script</div>
+<div class="feature">📥 Video Export</div>
+</div>
+</div>
 
- let audioElement=null;
- let audioStream=null;
+</div>
 
- try{
+<footer>
+MY AI VIDEO STUDIO © 2026
+</footer>
 
-  if(isVideo){
-   video.pause();
-   video.currentTime=start;
-   await new Promise(resolve=>{
-    video.onseeked=resolve;
-   });
-  }else{
-   imageObject=new Image();
-   imageObject.src=photo.src;
-   await imageObject.decode();
-  }
+<script>
+function generate(){
+let p=document.getElementById("prompt").value;
+let m=document.getElementById("mode").value;
 
-  if(musicFile){
-   audioElement=new Audio(URL.createObjectURL(musicFile));
-   audioElement.loop=true;
-   audioStream=audioElement.captureStream?
-   audioElement.captureStream():null;
-  }
-
-  const stream=canvas.captureStream(30);
-
-  if(isVideo && video.captureStream){
-   const originalStream=video.captureStream();
-   originalStream.getAudioTracks().forEach(t=>{
-    stream.addTrack(t);
-   });
-  }
-
-  if(audioStream){
-   audioStream.getAudioTracks().forEach(t=>{
-    stream.addTrack(t);
-   });
-  }
-
-  let mime='video/webm';
-
-  if(!MediaRecorder.isTypeSupported(mime)){
-   throw new Error('इस ब्राउजर में WebM Export उपलब्ध नहीं है।');
-  }
-
-  const recorder=new MediaRecorder(stream,{
-   mimeType:mime
-  });
-
-  let chunks=[];
-
-  recorder.ondataavailable=e=>{
-   if(e.data.size>0)chunks.push(e.data);
-  };
-
-  recorder.onstop=()=>{
-
-   const blob=new Blob(chunks,{type:mime});
-   const url=URL.createObjectURL(blob);
-
-   const a=document.createElement('a');
-   a.href=url;
-   a.download='my-video-studio.webm';
-   a.click();
-
-   status.textContent='वीडियो डाउनलोड हो गया!';
-
-   stream.getTracks().forEach(t=>t.stop());
-   if(audioElement)audioElement.pause();
-   video.pause();
-  };
-
-  recorder.start();
-
-  if(audioElement){
-   await audioElement.play();
-  }
-
-  if(isVideo){
-   await video.play();
-  }
-
-  const started=Date.now();
-
-  function draw(){
-
-   ctx.fillStyle='#000';
-   ctx.fillRect(0,0,width,height);
-
-   let source=isVideo?video:imageObject;
-
-   if(source){
-    let scale=Math.max(
-     width/source.videoWidth || width/source.width,
-     height/source.videoHeight || height/source.height
-    );
-
-    let sw=source.videoWidth || source.width;
-    let sh=source.videoHeight || source.height;
-
-    let w=sw*scale;
-    let h=sh*scale;
-
-    ctx.save();
-    ctx.filter=document.getElementById('filter').value;
-    ctx.drawImage(source,(width-w)/2,(height-h)/2,w,h);
-    ctx.restore();
-   }
-
-   const text=document.getElementById('overlay').value;
-
-   if(text){
-    ctx.font='bold 42px Arial';
-    ctx.textAlign='center';
-    ctx.fillStyle='white';
-    ctx.shadowColor='black';
-    ctx.shadowBlur=8;
-
-    let y=height/2;
-
-    if(document.getElementById('position').value==='top')y=100;
-    if(document.getElementById('position').value==='bottom')y=height-80;
-
-    ctx.fillText(text,width/2,y,width-40);
-   }
-
-   if(Date.now()-started>=duration*1000 ||
-      (isVideo && video.ended)){
-    recorder.stop();
-    return;
-   }
-
-   requestAnimationFrame(draw);
-  }
-
-  draw();
-
- }catch(error){
-  status.textContent='Export में समस्या: '+error.message;
-  if(audioElement)audioElement.pause();
- }
-
+if(!p.trim()){
+alert("पहले वीडियो का Prompt लिखें");
+return;
 }
 
-// THUMBNAIL MAKER
-
-let thumbPhoto=null;
-
-document.getElementById('thumbImage').addEventListener('change',e=>{
-
- const file=e.target.files[0];
- if(!file)return;
-
- thumbPhoto=new Image();
- thumbPhoto.onload=makeThumbnail;
- thumbPhoto.src=URL.createObjectURL(file);
-
-});
-
-function makeThumbnail(){
-
- const canvas=document.getElementById('thumbCanvas');
- const ctx=canvas.getContext('2d');
-
- if(!thumbPhoto){
-  alert('पहले फोटो चुनें');
-  return;
- }
-
- let ratio=document.getElementById('thumbRatio').value;
-
- if(ratio==='16:9'){
-  canvas.width=1280;
-  canvas.height=720;
- }else{
-  canvas.width=720;
-  canvas.height=1280;
- }
-
- let w=canvas.width,h=canvas.height;
- let scale=Math.max(w/thumbPhoto.width,h/thumbPhoto.height);
-
- let iw=thumbPhoto.width*scale;
- let ih=thumbPhoto.height*scale;
-
- ctx.drawImage(thumbPhoto,(w-iw)/2,(h-ih)/2,iw,ih);
-
- ctx.fillStyle='rgba(0,0,0,.35)';
- ctx.fillRect(0,0,w,h);
-
- let text=document.getElementById('thumbText').value;
-
- ctx.fillStyle=document.getElementById('thumbColor').value;
- ctx.font='bold 65px Arial';
- ctx.textAlign='center';
- ctx.shadowColor='black';
- ctx.shadowBlur=12;
-
- ctx.fillText(text,w/2,h*.78,w-70);
-
+document.getElementById("result").innerText=
+"आपका "+m+" Prompt तैयार है:\n\n"+p+
+"\n\nअभी AI वीडियो इंजन/API कनेक्ट नहीं है। इसे कनेक्ट करने के बाद वीडियो जनरेट होगा।";
 }
 
-function downloadThumbnail(){
-
- const canvas=document.getElementById('thumbCanvas');
-
- if(!thumbPhoto){
-  alert('पहले Thumbnail बनाएं');
-  return;
- }
-
- const a=document.createElement('a');
- a.download='my-thumbnail.png';
- a.href=canvas.toDataURL('image/png');
- a.click();
-
+function speak(){
+let t=document.getElementById("voice").value;
+if(!t.trim()){
+alert("पहले स्क्रिप्ट लिखें");
+return;
+}
+let u=new SpeechSynthesisUtterance(t);
+u.lang="hi-IN";
+speechSynthesis.speak(u);
 }
 
+function script(){
+let t=document.getElementById("topic").value;
+if(!t.trim()){
+alert("पहले टॉपिक लिखें");
+return;
+}
+document.getElementById("scriptResult").innerText=
+"आपका टॉपिक: "+t+
+"\n\nAI Script Generator को वास्तविक AI से जोड़ना बाकी है।";
+}
 </script>
 
 </body>
