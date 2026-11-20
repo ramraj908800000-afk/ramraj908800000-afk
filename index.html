@@ -438,3 +438,43 @@ document.getElementById("scriptResult").innerText=
 
 </body>
 </html>
+async function script(){
+  let t=document.getElementById("topic").value;
+  if(!t.trim()){
+    alert("पहले टॉपिक लिखें");
+    return;
+  }
+  let key=localStorage.getItem("api_key");
+  if(!key){
+    key=prompt("अपनी Anthropic API key डालें:");
+    if(!key) return;
+    localStorage.setItem("api_key",key);
+  }
+  let out=document.getElementById("scriptResult");
+  out.innerText="स्क्रिप्ट बन रही है...";
+  try{
+    let r=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key":key,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body:JSON.stringify({
+        model:"claude-sonnet-5-5",
+        max_tokens:1000,
+        messages:[{role:"user",content:"इस टॉपिक पर हिंदी में एक छोटे वीडियो की स्क्रिप्ट लिखो: "+t}]
+      })
+    });
+    let d=await r.json();
+    if(d.error){
+      out.innerText="गड़बड़: "+d.error.message;
+      localStorage.removeItem("api_key");
+      return;
+    }
+    out.innerText=d.content[0].text;
+  }catch(e){
+    out.innerText="कनेक्शन में दिक्कत: "+e.message;
+  }
+}
